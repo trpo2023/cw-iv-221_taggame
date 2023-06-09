@@ -50,6 +50,48 @@ class GameWindow:
     def about(self):
         messagebox.showinfo("GUI Python", "Разработал Козлов Семён, студент группы ИВ-221")
 
+    def clicked(self, i, j, n):
+        f = False
+        if self.Bt[i][j] == "":
+            f = True
+        if i - 1 >= 0:
+            if self.Bt[i - 1][j] == "":
+                f = True
+        if j - 1 >= 0:
+            if self.Bt[i][j - 1] == "":
+                f = True
+        if i + 1 <= n - 1:
+            if self.Bt[i + 1][j] == "":
+                f = True
+        if j + 1 <= n - 1:
+            if self.Bt[i][j + 1] == "":
+                f = True
+        if f:
+            if self.flag == 0:
+                self.change_index.append(i)
+                self.change_index.append(j)
+                self.Btn[i][j]["bg"] = self.from_rgb(44, 117, 255)
+                print("Clic", i, j)
+                self.flag += 1
+            elif self.flag == 1:
+                if self.Bt[self.change_index[0]][self.change_index[1]] == "" or self.Bt[i][j] == "":
+                    self.change_index.append(i)
+                    self.change_index.append(j)
+                    print(self.change_index)
+                    self.Btn[self.change_index[0]][self.change_index[1]]["bg"] = self.from_rgb(0, 0, 255)
+                    x = self.Btn[int(self.change_index[0])][int(self.change_index[1])]["text"]
+                    y = self.Btn[int(self.change_index[2])][int(self.change_index[3])]["text"]
+                    self.Btn[int(self.change_index[0])][int(self.change_index[1])]["text"] = y
+                    self.Btn[int(self.change_index[2])][int(self.change_index[3])]["text"] = x
+                    self.Bt[self.change_index[0]][self.change_index[1]], self.Bt[self.change_index[2]][self.change_index[3]] = self.Bt[self.change_index[2]][self.change_index[3]], self.Bt[self.change_index[0]][self.change_index[1]]
+
+                    print("Clic", i, j)
+                    self.flag = 0
+                    self.change_index = []
+
+                    self.proverka()
+
+
     def new_game(self, m):
         def func():
             for i in self.Btn:
