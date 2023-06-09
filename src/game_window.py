@@ -27,3 +27,66 @@ class GameWindow:
         self.pixelVirtual = PhotoImage(width=1, height=1)
         self.root.option_add("*tearOff", FALSE)
 
+        self.main_menu = Menu()
+        self.file_menu = Menu()
+        self.file_menu.add_command(label="3x3", command=self.new_game(3))
+        self.file_menu.add_command(label="4x4", command=self.new_game(4))
+        self.file_menu.add_command(label="5x5", command=self.new_game(5))
+        self.file_menu.add_separator()
+        self.file_menu.add_command(label="Выход", command=self.root.destroy)
+
+        self.main_menu.add_cascade(label="Новая игра", menu=self.file_menu)
+        self.main_menu.add_cascade(label="Помощь", command=self.edit_click)
+        self.main_menu.add_cascade(label="Инфо", command=self.about)
+
+        self.root.config(menu=self.main_menu)
+
+    def from_rgb(self, r, g, b):
+        return str(f'#{r:02x}{g:02x}{b:02x}')
+
+    def edit_click(self):
+        messagebox.showinfo("GUI Python", "Чтобы начать игру, нажмите на кнопку Новая Игра, и выберите размер поля.\n\nЦель игры:\nрасставить все цифры по порядку так, чтобы клетка\nс цифрой 1 находилась сверху слева,а пустая клетка - снизу справа.\n\nПравила:\nВы можете менять местами только клетку с цифрой с пустой клеткой, и только по горизонтали и вертикали!")
+
+    def about(self):
+        messagebox.showinfo("GUI Python", "Разработал Козлов Семён, студент группы ИВ-221")
+
+    def new_game(self, m):
+        def func():
+            for i in self.Btn:
+                for j in i:
+                    j.destroy()
+
+            self.Bt = [[0] * m for i in range(m)]
+            self.Btn = [[0] * m for i in range(m)]
+            self.C = [[0] * m for i in range(m)]
+            index = 1
+            for i in range(m):
+                self.root.columnconfigure(index=i, weight=1)
+            for j in range(m):
+                self.root.rowconfigure(index=j, weight=1)
+            for i in range(m):
+                for j in range(m):
+                    self.Bt[i][j] = j + i * m + 1
+                    self.Btn[i][j] = Button(
+                        self.root,
+                        text=str(index),
+                        image=self.pixelVirtual,
+                        width=self.w // m,
+                        height=self.h // m,
+                        command=partial(self.clicked, i, j, m),
+                        compound="c",
+                        bg="blue",
+                        activebackground="cyan",
+                        fg="white",
+                        font="Courier 50",
+                    )
+                    self.Btn[i][j].grid(row=i, column=j)
+                    index += 1
+            self.Btn[m - 1][m - 1]["text"] = ""
+            self.Bt[m - 1][m - 1] = ""
+            for i in range(m):
+                for j in range(m):
+                    self.C[i][j] = self.Bt[i][j]
+            self.mixed(m)
+
+        return func
