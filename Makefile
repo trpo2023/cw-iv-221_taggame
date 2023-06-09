@@ -2,7 +2,7 @@
 
 # Компиляция и запуск программы
 all: main.py
-	python main.py
+	python3 main.py
 
 # Очистка временных файлов
 clean:
