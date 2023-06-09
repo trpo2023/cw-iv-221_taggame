@@ -50,6 +50,14 @@ class GameWindow:
     def about(self):
         messagebox.showinfo("GUI Python", "Разработал Козлов Семён, студент группы ИВ-221")
 
+    def proverka(self):
+        if self.C == self.Bt:
+            self.root["bg"] = self.from_rgb(255, 127, 39)
+            showinfo(title="Победа!", message="Игра окончена, вы победили!")
+        else:
+            self.root["bg"] = self.from_rgb(20, 20, 20)
+            
+
     def clicked(self, i, j, n):
         f = False
         if self.Bt[i][j] == "":
