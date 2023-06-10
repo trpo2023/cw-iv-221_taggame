@@ -6,4 +6,5 @@ all: main.py
 
 # Очистка временных файлов
 clean:
-	rm -rf __pycache__
+	find $(CURDIR)/src -type d -name "__pycache__" -exec rm -rf {} +
+
