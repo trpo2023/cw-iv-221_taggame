@@ -4,6 +4,10 @@
 all: main.py
 	python3 main.py
 
+#Тесты программы
+test:
+	python3 test.py
+
 # Очистка временных файлов
 clean:
 	find $(CURDIR)/src -type d -name "__pycache__" -exec rm -rf {} +
