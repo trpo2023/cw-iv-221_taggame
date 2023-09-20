@@ -1,10 +1,10 @@
-from tkinter import *
-from tkinter import ttk, messagebox
+import tkinter as tk
 from random import randint
 import tkinter.font as tkFont
 from functools import partial
 from tkinter.messagebox import showinfo
 from .game_logic import GameLogic
+
 
 class GameWindow:
     def __init__(self, root):
@@ -19,16 +19,16 @@ class GameWindow:
         self.h = 500
 
         self.root["bg"] = self.from_rgb(0, 0, 0)
-        self.canvas = Canvas(bg="white", width=600, height=600)
+        self.canvas = tk.Canvas(bg="white", width=600, height=600)
         self.canvas.focus_set()
-        self.pixelVirtual = PhotoImage(width=1, height=1)
+        self.pixelVirtual = tk.PhotoImage(width=1, height=1)
         self.fontStyle = tkFont.Font(family="Lucida Grande", size=20)
-        self.labelExample = Label(self.root, text="20", font=self.fontStyle)
-        self.pixelVirtual = PhotoImage(width=1, height=1)
-        self.root.option_add("*tearOff", FALSE)
+        self.labelExample = tk.Label(self.root, text="20", font=self.fontStyle)
+        self.pixelVirtual = tk.PhotoImage(width=1, height=1)
+        self.root.option_add("*tearOff", False)
 
-        self.main_menu = Menu()
-        self.file_menu = Menu()
+        self.main_menu = tk.Menu()
+        self.file_menu = tk.Menu()
         self.file_menu.add_command(label="3x3", command=self.new_game(3))
         self.file_menu.add_command(label="4x4", command=self.new_game(4))
         self.file_menu.add_command(label="5x5", command=self.new_game(5))
@@ -42,21 +42,31 @@ class GameWindow:
         self.root.config(menu=self.main_menu)
 
     def from_rgb(self, r, g, b):
-        return str(f'#{r:02x}{g:02x}{b:02x}')
+        return f'#{r:02x}{g:02x}{b:02x}'
 
     def edit_click(self):
-        messagebox.showinfo("GUI Python", "Чтобы начать игру, нажмите на кнопку Новая Игра, и выберите размер поля.\n\nЦель игры:\nрасставить все цифры по порядку так, чтобы клетка\nс цифрой 1 находилась сверху слева,а пустая клетка - снизу справа.\n\nПравила:\nВы можете менять местами только клетку с цифрой с пустой клеткой, и только по горизонтали и вертикали!")
+        help_text = (
+            "Чтобы начать игру, нажмите на кнопку Новая Игра"
+            "и выберите размер поля.\n\n"
+            "Цель игры:\nрасставить все цифры по порядку"
+            "так, чтобы клетка\nс цифрой"
+            "1 находилась сверху слева, "
+            "а пустая клетка - снизу справа.\n\n"
+            "Правила:\nВы можете менять местами только клетку"
+            "с цифрой с пустой клеткой, и только по горизонтали и вертикали!"
+        )
+        showinfo("GUI Python", help_text)
 
     def about(self):
-        messagebox.showinfo("GUI Python", "Разработал Козлов Семён, студент группы ИВ-221")
+        showinfo("GUI Python", """Разработал Козлов Семён,
+                 студент группы ИВ-221""")
 
     def proverka(self):
         if self.C == self.Bt:
             self.root["bg"] = self.from_rgb(255, 127, 39)
-            showinfo(title="Победа!", message="Игра окончена, вы победили!")
+            showinfo("Победа!", "Игра окончена, вы победили!")
         else:
             self.root["bg"] = self.from_rgb(20, 20, 20)
-            
 
     def clicked(self, i, j, n):
         f = False
@@ -82,16 +92,19 @@ class GameWindow:
                 print("Clic", i, j)
                 self.flag += 1
             elif self.flag == 1:
-                if self.Bt[self.change_index[0]][self.change_index[1]] == "" or self.Bt[i][j] == "":
+                if self.Bt[self.change_index[0]][self.change_index[1]] == "" or self.Bt[i][j] == "":  # noqa: E501
                     self.change_index.append(i)
                     self.change_index.append(j)
                     print(self.change_index)
-                    self.Btn[self.change_index[0]][self.change_index[1]]["bg"] = self.from_rgb(0, 0, 255)
-                    x = self.Btn[int(self.change_index[0])][int(self.change_index[1])]["text"]
-                    y = self.Btn[int(self.change_index[2])][int(self.change_index[3])]["text"]
-                    self.Btn[int(self.change_index[0])][int(self.change_index[1])]["text"] = y
-                    self.Btn[int(self.change_index[2])][int(self.change_index[3])]["text"] = x
-                    self.Bt[self.change_index[0]][self.change_index[1]], self.Bt[self.change_index[2]][self.change_index[3]] = self.Bt[self.change_index[2]][self.change_index[3]], self.Bt[self.change_index[0]][self.change_index[1]]
+                    self.Btn[self.change_index[0]][self.change_index[1]]["bg"] = self.from_rgb(0, 0, 255)  # noqa: E501
+                    x = self.Btn[int(self.change_index[0])][int(self.change_index[1])]["text"]  # noqa: E501
+                    y = self.Btn[int(self.change_index[2])][int(self.change_index[3])]["text"]  # noqa: E501
+                    self.Btn[int(self.change_index[0])][int(self.change_index[1])]["text"] = y  # noqa: E501
+                    self.Btn[int(self.change_index[2])][int(self.change_index[3])]["text"] = x  # noqa: E501
+                    self.Bt[self.change_index[0]][self.change_index[1]], \
+                        self.Bt[self.change_index[2]][self.change_index[3]] = \
+                        self.Bt[self.change_index[2]][self.change_index[3]], \
+                        self.Bt[self.change_index[0]][self.change_index[1]]  # noqa: E501
 
                     print("Clic", i, j)
                     self.flag = 0
@@ -128,7 +141,7 @@ class GameWindow:
             for i in range(m):
                 for j in range(m):
                     self.Bt[i][j] = j + i * m + 1
-                    self.Btn[i][j] = Button(
+                    self.Btn[i][j] = tk.Button(
                         self.root,
                         text=str(index),
                         image=self.pixelVirtual,
