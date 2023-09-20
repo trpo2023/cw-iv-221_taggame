@@ -1,8 +1,8 @@
 .PHONY: all clean
 
 # Компиляция и запуск программы
-all: main.py
-	python3 main.py
+all:
+	xvfb-run -a python3 main.py
 
 #Тесты программы
 test:
