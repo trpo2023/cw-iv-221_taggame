@@ -1,0 +1,31 @@
+name: Build
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-20.04
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.10.6
+
+    - name: Install dependencies
+      run: | 
+          sudo apt update
+          sudo apt-get install xvfb
+          sudo apt-get install python3-tk
+          sudo apt-get install flake8
+          
+
+    - name: check codestyle
+      run: flake8
+
+    - name: Run tests
+      run: |
+        xvfb-run -a python3 test.py
