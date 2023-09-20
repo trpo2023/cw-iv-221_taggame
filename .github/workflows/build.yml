@@ -20,7 +20,7 @@ jobs:
           sudo apt update
           sudo apt-get install xvfb
           sudo apt-get install python3-tk
-          pip3 install flake8
+          sudo apt-get install flake8
           
 
     - name: check codestyle
