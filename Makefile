@@ -6,7 +6,7 @@ all: main.py
 
 #Тесты программы
 test:
-	python3 test.py
+	xvfb-run -a python3 test.py
 
 # Очистка временных файлов
 clean:
