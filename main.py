@@ -1,5 +1,6 @@
 from tkinter import Tk
-from src import *
+from src.game_window import GameWindow
+
 
 def main():
     root = Tk()
